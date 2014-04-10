@@ -2,6 +2,31 @@ var def = "Plane";
 var projection = def;
 var plugins = [];
 
+var s = document.createElement('script');
+s.src = chrome.extension.getURL('poll.js');
+(document.head||document.documentElement).appendChild(s);
+s.onload = function() {
+    s.parentNode.removeChild(s);
+};
+
+// Event listener
+document.addEventListener('pollData', function(e) {
+    if (!window._vr_native_) {
+        window._vr_native_ = {};
+    }
+    window._vr_native_.poll = function () {
+        return e.detail;
+    }
+});
+document.addEventListener('command1', function(e) {
+    if (!window._vr_native_) {
+        window._vr_native_ = {};
+    }
+    window._vr_native_.exec = function () {
+        return e.detail;
+    }
+});
+
 chrome.runtime.onMessage.addListener(function (msg, sender, response) {
     projection = msg.projection || def;
     if (plugins.length) {
