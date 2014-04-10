@@ -23,7 +23,10 @@ for (var i = 0; i < vids.length; i+=1) {
     icon.addEventListener('click', function (evt) {
         this.style.display = "none";
         //will need to add logic to handle different sites here
-        plugin = MAKE3D.init(video, {container: video.offsetParent.firstChild, projection: projection });
+        var contentEl = video.offsetParent.firstChild;
+        var style = contentEl.style || {};
+        var aspect = (style.width && style.height) ? (style.width.replace(/\D+/, "") / style.height.replace(/\D+/, "")) : (4/3);
+        plugin = MAKE3D.init(video, {container: contentEl, projection: projection, aspectRatio: aspect });
         plugins.push(plugin);
         evt.stopPropagation();
     });

@@ -2,7 +2,6 @@ window.addEventListener('load', function(evt) {
     var projKey = "projection";
     var messageDiv = document.getElementById('count');
     var select = document.getElementById('projection');
-debugger;
 
     function updateBasedOnCount(count) {
         if (count > 0) {

@@ -84,6 +84,7 @@ var MAKE3D = (function (global) {
             }()),
             container = options.container || document.body,
             current_proj = options.projection || "Plane",
+            aspectRatio = options.aspectRatio || (4/3),
             movieMaterial,
             movieGeometry,
             movieScreen,
@@ -99,6 +100,7 @@ var MAKE3D = (function (global) {
 
         function changeProjection(projection) {
             var position = {x:0, y:0, z:0 },
+                height = 256,
                 i;
             if (scene) {
                 scene.remove(movieScreen);
@@ -110,13 +112,13 @@ var MAKE3D = (function (global) {
             } else if (projection === "Cube") {
                 movieGeometry = new THREE.CubeGeometry( 256, 256, 256 );
             } else if (projection === "Dome") {
-                movieGeometry = new THREE.PlaneGeometry( 480, 204, 1, 40 );
+                movieGeometry = new THREE.PlaneGeometry( height * aspectRatio, height, 1, 40 );
                 for (i = 0; i < movieGeometry.vertices.length; i +=1) {
                     movieGeometry.vertices[i].z = -(i*2) - Math.pow(i, 2);
                 }
                 position.z = -256;
             } else if (projection === "Plane") {
-                movieGeometry = new THREE.PlaneGeometry( 480, 204, 4, 4 );
+                movieGeometry = new THREE.PlaneGeometry( height * aspectRatio, height, 4, 4 );
                 position.z = -256;
             }
             movieScreen = new THREE.Mesh( movieGeometry, movieMaterial );
