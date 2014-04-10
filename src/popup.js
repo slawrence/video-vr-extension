@@ -5,7 +5,7 @@ window.addEventListener('load', function(evt) {
 
     function updateBasedOnCount(count) {
         if (count > 0) {
-            messageDiv.innerText = count + " video elements found";
+            messageDiv.innerText = count + " video element(s) found";
             select.disabled = false;
         } else {
             messageDiv.innerText = "No video elements found";
