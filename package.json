@@ -1,5 +1,5 @@
 {
-  "name": "video-vr-plugin",
+  "name": "video-vr-extension",
   "version": "0.0.0",
   "description": "Watch videos in VR mode",
   "main": "index.js",
