@@ -13,7 +13,6 @@ chrome.runtime.onMessage.addListener(function (msg, sender, response) {
 
 function checkVids () {
     var vids = document.getElementsByTagName('video');
-    console.log('checkVids', vids.length);
     for (var i = 0; i < vids.length; i+=1) {
         var video = vids[i];
         if (!video["data-vr-plugin-found"]) {
