@@ -1,20 +1,30 @@
 <html>
     <head>
+        <style>
+            #container {
+                text-align: center;
+                min-width: 200px;
+            }
+            #count {
+                text-size: 80%;
+            }
+        </style>
         <script src="popup.js"></script>
     </head>
 
     <body>
-        <div id="count"></div>
-        <div>
-            <label>Projection:</label>
-            <select id="projection" disabled="disabled">
-                <option>Plane</option>
-                <option>Sphere</option>
-                <option>Cube</option>
-                <option>Cylinder</option>
-            </select>
+        <div id="container">
+            <div>
+                <label for="projection">Projection:</label>
+                <select id="projection" disabled="disabled">
+                    <option>Plane</option>
+                    <option>Sphere</option>
+                    <option>Cube</option>
+                    <option>Cylinder</option>
+                </select>
+            </div>
+            <div id="count"></div>
         </div>
-        Hide Icons: <input type="checkbox"></input>
     </body>
 
 </html>

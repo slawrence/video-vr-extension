@@ -1,6 +1,6 @@
 <!doctype html>
 <html>
-<head><title>Canvas VR</title></head>
+<head><title>Video VR Extension</title></head>
 <style>
 #container {
     margin: 0 auto;
@@ -24,69 +24,14 @@ select {
   padding: 5px;
 }
 </style>
-<!-- only necessary for this page, optional for plugin -->
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.0/jquery.js"></script>
-
-<!--<script src="libs/three.min.js"></script>-->
-<!--<script src="libs/PointerLockControls.js">-->
-
-<!-- vr stuff is optional, must be after THREE is defined -->
-<!--<script src="libs/vr/vr.js"></script>-->
-<!--<script src="libs/vr/OculusRiftControls.js"></script>-->
-<!--<script src="libs/vr/OculusRiftEffect.js"></script>-->
-
 <body>
 
 <div id="container">
   <div id="header">
-      <h2><a href="https://github.com/slawrence/canvas-vr">canvas-vr</a></h2>
+      <h2><a href="">video-vr-extension</a></h2>
   </div>
-  <canvas id="game" width="800" height="600"></canvas>
+  <video width="800" height="600" src="http://vids.ishallbereleased.com/bears.mp4" crossorigin="anonymous" data-setup="{}" controls></video>
 </div>
 
-<script src="dist/bundle.js"></script>
-
-<script>
-    var canvas = document.getElementById('game');
-    var context = canvas.getContext('2d');
-    var centerX = canvas.width / 2;
-    var centerY = canvas.height / 2;
-    var radius = 70;
-    var eyeRadius = 10;
-    var eyeXOffset = 25;
-    var eyeYOffset = 20;
-
-    //background
-    context.strokeStyle = "#000000";
-    context.fillStyle = "#FF0F00";
-    context.fillRect(0,0,800,600);
-
-    // draw the yellow circle
-    context.beginPath();
-    context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
-    context.fillStyle = 'yellow';
-    context.fill();
-    context.lineWidth = 5;
-    context.strokeStyle = 'black';
-    context.stroke();
-
-    // draw the eyes
-    context.beginPath();
-    var eyeX = centerX - eyeXOffset;
-    var eyeY = centerY - eyeXOffset;
-    context.arc(eyeX, eyeY, eyeRadius, 0, 2 * Math.PI, false);
-    var eyeX = centerX + eyeXOffset;
-    context.arc(eyeX, eyeY, eyeRadius, 0, 2 * Math.PI, false);
-    context.fillStyle = 'black';
-    context.fill();
-
-    // draw the mouth
-    context.beginPath();
-    context.arc(centerX, centerY, 50, 0, Math.PI, false);
-    context.stroke();
-
-
-    CANVASVR.init(canvas, {projection: "Cube"});
-</script>
 </body>
 </html>
