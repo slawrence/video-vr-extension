@@ -1,0 +1,39 @@
+{
+    "manifest_version": 2,
+
+    "name": "Video VR Plugin",
+    "description": "This plugin allows you to watch HTML5 video tags and canvas tags in a 3D environment. Requires vr.js plugin.",
+    "version": "1.0",
+
+    "background": {
+        "scripts": ["background.js"]
+    },
+
+    "browser_action": {
+        "default_icon": "icon.png",
+        "default_popup": "popup.html"
+    },
+    "permissions": [
+        "tabs",
+        "storage",
+        "http://*/",
+        "https://*/"
+    ],
+
+    "options_page": "options.html",
+
+    "content_scripts": [
+        {
+            "matches": ["<all_urls>"],
+            "js": ["video-js/video.js", "bundle.js", "main.js"]
+        }
+    ],
+    "web_accessible_resources": [
+        "icon.png"
+    ],
+    "requirements": {
+        "3D": {
+            "features": ["webgl"]
+        }
+    }
+}
