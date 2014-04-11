@@ -108,7 +108,7 @@ var MAKE3D = (function (global) {
             if (projection === "Sphere") {
                 movieGeometry = new THREE.SphereGeometry( 256, 32, 32 );
             } else if (projection === "Cylinder") {
-                movieGeometry = new THREE.CylinderGeometry( 256, 256, 256, 50, 50, true );
+                movieGeometry = new THREE.CylinderGeometry( 256, 256, 512, 50, 50, true );
             } else if (projection === "Cube") {
                 movieGeometry = new THREE.CubeGeometry( 256, 256, 256 );
             } else if (projection === "Dome") {
