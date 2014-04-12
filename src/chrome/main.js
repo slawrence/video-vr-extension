@@ -40,7 +40,7 @@ function checkVids () {
     var vids = document.getElementsByTagName('video');
     for (var i = 0; i < vids.length; i+=1) {
         var video = vids[i];
-        if (!video["data-vr-plugin-found"]) {
+        if (!video.hasAttribute("data-vr-plugin-found")) {
             var icon = document.createElement("img");
             icon.src = chrome.extension.getURL("icon16.png");
             icon.style["position"] = "absolute";
@@ -51,7 +51,7 @@ function checkVids () {
                 this.style.display = "none";
 
                 //will need to add logic to handle different sites here
-                var contentEl = video.offsetParent.children[0];
+                var contentEl = video.parentNode;
                 var style = contentEl.style || {};
                 var aspect = (style.width && style.height) ? (style.width.replace(/\D+/, "") / style.height.replace(/\D+/, "")) : (4/3);
 
@@ -59,8 +59,8 @@ function checkVids () {
                 plugins.push(plugin);
                 evt.stopPropagation();
             });
-            video["data-vr-plugin-found"] = true;
-            video.crossorigin="anonymous";
+            video.setAttribute("data-vr-plugin-found", "true");
+            video.setAttribute("crossorigin", "anonymous");
             (video.offsetParent || document.body).appendChild(icon);
         }
     };

@@ -154,7 +154,7 @@ THREE.OculusRiftEffect.prototype.render = function(scene, camera, vrstate) {
         vrstate.hmd.rotation[2],
         vrstate.hmd.rotation[3]);
     var rotMat = new THREE.Matrix4();
-    rotMat.setRotationFromQuaternion(quat);
+    rotMat.makeRotationFromQuaternion(quat);
     eyeWorldMatrix.multiply(rotMat);
   }
 

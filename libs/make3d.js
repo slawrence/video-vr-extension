@@ -60,13 +60,13 @@ var MAKE3D = (function (global) {
 
     initVR = function() {
         var vrEnabled = false;
-        if (typeof vr !== "undefined") {
+        if (typeof global.vr !== "undefined") {
             vrEnabled = true;
-            if (!vr.isInstalled()) {
+            if (!global.vr.isInstalled()) {
                 console.error('NPVR plugin not installed!');
                 vrEnabled = false;
             }
-            vr.load(function(error) {
+            global.vr.load(function(error) {
                 if (error) {
                     console.error('Plugin load failed: ' + error.toString());
                     vrEnabled = false;
