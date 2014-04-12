@@ -79,7 +79,7 @@ var MAKE3D = (function (global) {
     init = function (id, options) {
         //vars global (via closure) to the plugin
         var vrEnabled = initVR(),
-            canvasEl = (function () {
+            videoEl = (function () {
                 return (typeof id === "String") ? document.getElementById(id) : id;
             }()),
             container = options.container || document.body,
@@ -142,7 +142,7 @@ var MAKE3D = (function (global) {
             controls3d = vrEnabled ? new THREE.OculusRiftControls(camera) : new THREE.PointerLockControls(camera);
             scene.add(controls3d.getObject());
 
-            videoTexture = new THREE.Texture( canvasEl );
+            videoTexture = new THREE.Texture( videoEl );
             videoTexture.minFilter = THREE.LinearFilter;
             videoTexture.magFilter = THREE.LinearFilter;
 
@@ -167,10 +167,10 @@ var MAKE3D = (function (global) {
             renderedCanvas.style.height = "inherit";
 
             container.insertBefore(renderedCanvas, container.firstChild);
-            canvasEl.style.display = "none";
+            videoEl.style.display = "none";
 
             function animate() {
-                if ( canvasEl.readyState === canvasEl.HAVE_ENOUGH_DATA ) {
+                if ( videoEl.readyState === videoEl.HAVE_ENOUGH_DATA ) {
                     if (videoTexture) {
                         videoTexture.needsUpdate = true;
                     }
