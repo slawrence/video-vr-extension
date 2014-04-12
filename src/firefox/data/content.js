@@ -57,7 +57,7 @@
                     this.style.display = "none";
 
                     //will need to add logic to handle different sites here
-                    var contentEl = video.offsetParent.firstChild;
+                    var contentEl = video.offsetParent.children[0];
                     var style = contentEl.style || {};
                     var aspect = (style.width && style.height) ? (style.width.replace(/\D+/, "") / style.height.replace(/\D+/, "")) : (4/3);
 
