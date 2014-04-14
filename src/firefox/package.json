@@ -1,9 +1,9 @@
 {
   "name": "vr-video",
-  "title": "VR Video",
+  "title": "VR Video Extension",
   "id": "jid1-BVuA5t5ojHmIwg",
   "description": "Watch videos in the Rift",
   "author": "Sean Lawrence",
   "license": "MPL 2.0",
-  "version": "0.1"
+  "version": "0.0.4"
 }

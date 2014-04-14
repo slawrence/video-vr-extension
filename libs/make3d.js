@@ -85,6 +85,8 @@ var MAKE3D = (function (global) {
             container = options.container || document.body,
             current_proj = options.projection || "Plane",
             aspectRatio = options.aspectRatio || (4/3),
+            projections = ['Plane', 'Sphere', 'Cube', 'Cylinder'],
+            currentProjection,
             movieMaterial,
             movieGeometry,
             movieScreen,
@@ -102,6 +104,8 @@ var MAKE3D = (function (global) {
             var position = {x:0, y:0, z:0 },
                 height = 256,
                 i;
+
+            currentProjection = projection;
             if (scene) {
                 scene.remove(movieScreen);
             }
@@ -203,6 +207,16 @@ var MAKE3D = (function (global) {
         }
 
         function keyPressed (event) {
+            switch ( event.keyCode ) {
+                case 78: // n = flip through projections
+                    var currentIndex = projections.indexOf(currentProjection);
+                    if (currentIndex === -1) {
+                        currentIndex = 0;
+                    }
+                    currentIndex = (currentIndex < projections.length - 1) ? (currentIndex + 1) : 0;
+                    changeProjection(projections[currentIndex]);
+                    break;
+            }
             if (vrEnabled) {
                 switch ( event.keyCode ) {
                     case 79: // o

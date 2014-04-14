@@ -42,12 +42,14 @@ document.addEventListener('pollData', function(e) {
         for (var i = 0; i < vids.length; i+=1) {
             var video = vids[i];
             if (!video.hasAttribute("data-vr-plugin-found")) {
-                var icon = document.createElement("img");
+                var icon = document.createElement("img"),
+                    plugin;
                 icon.src = iconUrl
                 icon.style["position"] = "absolute";
                 icon.style.top = "5px";
                 icon.style.right = "5px";
                 icon.style.cursor = "pointer";
+                icon.title = "Click to watch in 3D!";
                 icon.addEventListener('click', function (evt) {
                     this.style.display = "none";
                     video.crossOrigin="Anonymous";
@@ -67,7 +69,7 @@ document.addEventListener('pollData', function(e) {
                     evt.stopPropagation();
                 });
                 video.setAttribute("data-vr-plugin-found", "true");
-                (video.offsetParent || document.body).appendChild(icon);
+                (video.parentNode || document.body).appendChild(icon);
             }
         };
     }
