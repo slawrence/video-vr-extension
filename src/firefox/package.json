@@ -1,9 +1,9 @@
 {
-  "name": "firefox",
-  "title": "firefox",
+  "name": "vr-video",
+  "title": "VR Video",
   "id": "jid1-BVuA5t5ojHmIwg",
-  "description": "a basic add-on",
-  "author": "",
+  "description": "Watch videos in the Rift",
+  "author": "Sean Lawrence",
   "license": "MPL 2.0",
   "version": "0.1"
 }

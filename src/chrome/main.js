@@ -2,6 +2,7 @@ var def = "Plane";
 var projection = def;
 var plugins = [];
 
+//inject poll.js to read _vr_native_ data
 var s = document.createElement('script');
 s.src = chrome.extension.getURL('poll.js');
 (document.head||document.documentElement).appendChild(s);
@@ -9,24 +10,26 @@ s.onload = function() {
     s.parentNode.removeChild(s);
 };
 
-// Event listener
+// Listeners for events from poll.js (i.e. the background page)
+// This is necessary because we can't access these globals directly from
+// content scripts
 document.addEventListener('pollData', function(e) {
     if (!window._vr_native_) {
         window._vr_native_ = {};
     }
     window._vr_native_.poll = function () {
-        return e.detail;
+        return e.detail.poll;
     }
-});
-document.addEventListener('command1', function(e) {
-    if (!window._vr_native_) {
-        window._vr_native_ = {};
-    }
-    window._vr_native_.exec = function () {
-        return e.detail;
+    window._vr_native_.exec = function (id) {
+        if (id == 1) {
+            return e.detail.command1;
+        } else if (id == 2) {
+            document.dispatchEvent(new CustomEvent('resetHmd'));
+        }
     }
 });
 
+// Change projection listener (from popup.js)
 chrome.runtime.onMessage.addListener(function (msg, sender, response) {
     projection = msg.projection || def;
     if (plugins.length) {
@@ -49,9 +52,10 @@ function checkVids () {
             icon.style.cursor = "pointer";
             icon.addEventListener('click', function (evt) {
                 this.style.display = "none";
+                video.setAttribute("crossorigin", "anonymous");
 
                 //will need to add logic to handle different sites here
-                var contentEl = video.parentNode;
+                var contentEl = video.parentNode.children[0];
                 var style = contentEl.style || {};
                 var aspect = (style.width && style.height) ? (style.width.replace(/\D+/, "") / style.height.replace(/\D+/, "")) : (4/3);
 
@@ -60,7 +64,6 @@ function checkVids () {
                 evt.stopPropagation();
             });
             video.setAttribute("data-vr-plugin-found", "true");
-            video.setAttribute("crossorigin", "anonymous");
             (video.offsetParent || document.body).appendChild(icon);
         }
     };

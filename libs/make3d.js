@@ -136,7 +136,7 @@ var MAKE3D = (function (global) {
                 renderer,
                 camera;
 
-            camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 1000 );
+            camera = new THREE.PerspectiveCamera( 75, aspectRatio, 1, 1000 );
             scene = new THREE.Scene();
 
             controls3d = vrEnabled ? new THREE.OculusRiftControls(camera) : new THREE.PointerLockControls(camera);
@@ -201,6 +201,28 @@ var MAKE3D = (function (global) {
                 controls3d.enabled = false;
             }, renderedCanvas);
         }
+
+        function keyPressed (event) {
+            if (vrEnabled) {
+                switch ( event.keyCode ) {
+                    case 79: // o
+                        effect.setInterpupillaryDistance(
+                                effect.getInterpupillaryDistance() - 0.001);
+                                effect.getInterpupillaryDistance().toFixed(3);
+                        break;
+                    case 80: // p
+                        effect.setInterpupillaryDistance(
+                                effect.getInterpupillaryDistance() + 0.001);
+                                effect.getInterpupillaryDistance().toFixed(3);
+                        break;
+                    case 67: // c
+                        vr.resetHmdOrientation();
+                        event.preventDefault();
+                        break;
+                }
+            }
+        }
+        document.addEventListener( 'keydown', keyPressed, false );
         return {
             changeProjection: changeProjection
         };

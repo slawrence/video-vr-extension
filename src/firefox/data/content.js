@@ -1,29 +1,21 @@
-// Event listener
+// Listeners for events from poll.js (i.e. the background page)
+// This is necessary because we can't access these globals directly from
+// content scripts
 document.addEventListener('pollData', function(e) {
     if (!window._vr_native_) {
         window._vr_native_ = {};
     }
     window._vr_native_.poll = function () {
-        return e.detail;
+        return e.detail.poll;
+    }
+    window._vr_native_.exec = function (id) {
+        if (id == 1) {
+            return e.detail.command1;
+        } else if (id == 2) {
+            document.dispatchEvent(new CustomEvent('resetHmd'));
+        }
     }
 });
-document.addEventListener('command1', function(e) {
-    if (!window._vr_native_) {
-        window._vr_native_ = {};
-    }
-    window._vr_native_.exec = function () {
-        return e.detail;
-    }
-});
-
-//chrome.runtime.onMessage.addListener(function (msg, sender, response) {
-    //projection = msg.projection || def;
-    //if (plugins.length) {
-        //plugins.forEach(function (p) {
-            //p.changeProjection(projection);
-        //});
-    //}
-//});
 
 (function (global) {
     var def = "Plane";
