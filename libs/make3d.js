@@ -112,7 +112,7 @@ var MAKE3D = (function (global) {
             if (projection === "Sphere") {
                 movieGeometry = new THREE.SphereGeometry( 256, 32, 32 );
             } else if (projection === "Cylinder") {
-                movieGeometry = new THREE.CylinderGeometry( 256, 256, 512, 50, 50, true );
+                movieGeometry = new THREE.CylinderGeometry( 256, 256, 400, 50, 1, true );
             } else if (projection === "Cube") {
                 movieGeometry = new THREE.CubeGeometry( 256, 256, 256 );
             } else if (projection === "Dome") {
@@ -167,8 +167,8 @@ var MAKE3D = (function (global) {
                 effect = new THREE.OculusRiftEffect(renderer);
             }
             renderedCanvas = renderer.domElement;
-            renderedCanvas.style.width = "inherit";
-            renderedCanvas.style.height = "inherit";
+            renderedCanvas.style.width = "100%";
+            renderedCanvas.style.height = "100%";
 
             container.insertBefore(renderedCanvas, container.firstChild);
             videoEl.style.display = "none";

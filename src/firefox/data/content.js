@@ -58,13 +58,16 @@ document.addEventListener('pollData', function(e) {
                     video.play();
 
                     //will need to add logic to handle different sites here
-                    var contentEl = video.parentNode.children[0];
+                    var containerEl = video.parentNode;
+                    var contentEl = containerEl.children[0];
 
                     //aspect ratio stuff
                     var style = contentEl.style || {};
                     var aspect = (style.width && style.height) ? (style.width.replace(/\D+/, "") / style.height.replace(/\D+/, "")) : (4/3);
 
-                    plugin = global.MAKE3D.init(video, {container: contentEl, projection: projection, aspectRatio: aspect });
+                    contentEl.style.pointerEvents = "none";
+
+                    plugin = global.MAKE3D.init(video, {container: containerEl, projection: projection, aspectRatio: aspect });
                     plugins.push(plugin);
                     evt.stopPropagation();
                 });
