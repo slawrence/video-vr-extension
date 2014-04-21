@@ -59,8 +59,7 @@ function checkVids () {
                 //will need to add logic to handle different sites here
                 var containerEl = video.parentNode;
                 var contentEl = containerEl.children[0];
-                var style = contentEl.style || {};
-                var aspect = (style.width && style.height) ? (style.width.replace(/\D+/, "") / style.height.replace(/\D+/, "")) : (4/3);
+                var aspect = (containerEl.offsetWidth && containerEl.offsetHeight) ? (containerEl.offsetWidth / containerEl.offsetHeight) : (4/3);
 
                 contentEl.style.pointerEvents = "none";
 

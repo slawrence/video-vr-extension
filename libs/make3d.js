@@ -76,15 +76,27 @@ var MAKE3D = (function (global) {
         return vrEnabled;
     },
 
+    getDim = function (vidEl) {
+        var style = vidEl.style || {};
+        if (vidEl.offsetWidth && vidEl.offsetHeight) {
+            return {w: vidEl.offsetWidth, h: vidEl.offsetHeight};
+        }
+        if (style.width && style.height) {
+            return {w: parseInt(style.width.replace(/\D+/, "")), h: parseInt(style.height.replace(/\D+/, ""))};
+        }
+        return {w: 640, h: 360};
+    },
+
     init = function (id, options) {
         //vars global (via closure) to the plugin
         var vrEnabled = initVR(),
             videoEl = (function () {
                 return (typeof id === "String") ? document.getElementById(id) : id;
             }()),
+            vidAspectRatio = getAspectRatio(videoEl),
             container = options.container || document.body,
             current_proj = options.projection || "Plane",
-            aspectRatio = options.aspectRatio || (4/3),
+            viewportAspectRatio = options.aspectRatio || (4/3),
             projections = ['Plane', 'Sphere', 'Cube', 'Cylinder'],
             currentProjection,
             movieMaterial,
@@ -93,6 +105,11 @@ var MAKE3D = (function (global) {
             controls3d,
             renderedCanvas,
             scene;
+
+        function getAspectRatio (el) {
+            var dim = getDim(el);
+            return (dim.w / dim.h);
+        };
 
         function resetControls() {
             controls3d.getObject().position.set(0, 0, 0);
@@ -105,24 +122,24 @@ var MAKE3D = (function (global) {
                 height = 256,
                 i;
 
-            currentProjection = projection;
+            currentProjection = projection || currentProjection;
             if (scene) {
                 scene.remove(movieScreen);
             }
-            if (projection === "Sphere") {
+            if (currentProjection  === "Sphere") {
                 movieGeometry = new THREE.SphereGeometry( 256, 32, 32 );
-            } else if (projection === "Cylinder") {
+            } else if (currentProjection  === "Cylinder") {
                 movieGeometry = new THREE.CylinderGeometry( 256, 256, 400, 50, 1, true );
-            } else if (projection === "Cube") {
+            } else if (currentProjection  === "Cube") {
                 movieGeometry = new THREE.CubeGeometry( 256, 256, 256 );
-            } else if (projection === "Dome") {
-                movieGeometry = new THREE.PlaneGeometry( height * aspectRatio, height, 1, 40 );
+            } else if (currentProjection  === "Dome") {
+                movieGeometry = new THREE.PlaneGeometry( height * vidAspectRatio, height, 1, 40 );
                 for (i = 0; i < movieGeometry.vertices.length; i +=1) {
                     movieGeometry.vertices[i].z = -(i*2) - Math.pow(i, 2);
                 }
                 position.z = -256;
-            } else if (projection === "Plane") {
-                movieGeometry = new THREE.PlaneGeometry( height * aspectRatio, height, 4, 4 );
+            } else if (currentProjection  === "Plane") {
+                movieGeometry = new THREE.PlaneGeometry( height * vidAspectRatio, height, 4, 4 );
                 position.z = -256;
             }
             movieScreen = new THREE.Mesh( movieGeometry, movieMaterial );
@@ -140,7 +157,7 @@ var MAKE3D = (function (global) {
                 renderer,
                 camera;
 
-            camera = new THREE.PerspectiveCamera( 75, aspectRatio, 1, 1000 );
+            camera = new THREE.PerspectiveCamera( 75, viewportAspectRatio, 1, 1000 );
             scene = new THREE.Scene();
 
             controls3d = vrEnabled ? new THREE.OculusRiftControls(camera) : new THREE.PointerLockControls(camera);
@@ -172,6 +189,10 @@ var MAKE3D = (function (global) {
 
             container.insertBefore(renderedCanvas, container.firstChild);
             videoEl.style.display = "none";
+            videoEl.addEventListener("loadstart", function (evt) {
+                vidAspectRatio = getAspectRatio(videoEl);
+                changeProjection();
+            });
 
             function animate() {
                 if ( videoEl.readyState === videoEl.HAVE_ENOUGH_DATA ) {
