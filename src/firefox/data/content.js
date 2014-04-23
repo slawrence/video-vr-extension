@@ -63,9 +63,6 @@ document.addEventListener('pollData', function(e) {
 
                     //aspect ratio stuff
                     var aspect = (containerEl.offsetWidth && containerEl.offsetHeight) ? (containerEl.offsetWidth / containerEl.offsetHeight) : (4/3);
-                    console.log('offsetWidth', containerEl.offsetWidth);
-                    console.log('offsetHeight', containerEl.offsetHeight);
-                    console.log('aspecccccccccccctt', aspect);
 
                     contentEl.style.pointerEvents = "none";
 
