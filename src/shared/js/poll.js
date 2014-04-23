@@ -1,4 +1,5 @@
 //dirty hack code to get hmd data across
+//This file must be script tag injected via a content script tag
 setInterval(function() {
     if(window._vr_native_) {
         document.dispatchEvent(new CustomEvent('pollData', {

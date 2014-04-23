@@ -17,14 +17,14 @@
     },
     "permissions": [
         "tabs",
-        "http://www.youtube.com/",
-        "https://www.youtube.com/"
+         "http://*/",
+         "https://*/"
     ],
 
     "content_scripts": [
         {
-            "matches": ["http://www.youtube.com/*", "https://www.youtube.com/*"],
-            "js": ["bundle.js", "main.js"]
+            "matches": ["<all_urls>"],
+            "js": ["bundle.js"]
         }
     ],
     "web_accessible_resources": [
