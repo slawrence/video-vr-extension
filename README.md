@@ -33,9 +33,10 @@ To package both Chrome and Firefox run `make`. Packaged products are located in 
 ### Running Chrome ###
 
 After building the project, you'll want to load the extension as an "unpacked" extension:
-    * Open Chrome to `chrome://extensions`
-    * Check 'Developer mode' and click 'Load unpacked extension'
-    * Select the `dist/chrome` folder
+
+* Open Chrome to `chrome://extensions`
+* Check 'Developer mode' and click 'Load unpacked extension'
+* Select the `dist/chrome` folder
 
 After making changes, run `make dev-chrome` then refresh the extension to see changes.
 
