@@ -1,14 +1,19 @@
 {
-  "name": "video-vr-extension",
-  "version": "0.0.0",
-  "description": "Watch videos in VR mode",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "Sean Lawrence",
-  "license": "BSD-2-Clause",
-  "devDependencies": {
-    "uglify-js": "~2.4.13"
-  }
+    "name": "video-vr-extension", 
+    "license": "BSD-2-Clause", 
+    "author": "Sean Lawrence", 
+    "version": "0.0.0", 
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    }, 
+    "devDependencies": {
+        "gulp": "~3.6.1", 
+        "gulp-uglify": "~0.2.1", 
+        "gulp-concat": "~2.2.0", 
+        "uglify-js": "~2.4.13", 
+        "gulp-rename": "~1.2.0"
+    }, 
+    "main": "index.js", 
+    "id": "jid1-14A3aSUI1sYSpg", 
+    "description": "Watch videos in VR mode"
 }

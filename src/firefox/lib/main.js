@@ -5,7 +5,6 @@ var pageMod = require("sdk/page-mod");
 pageMod.PageMod({
   include: "*.youtube.com",
   contentScriptFile: data.url("bundle.js"),
-  //contentScriptFile: data.url("unmini-bundle.js"),
   contentScriptWhen: "end",
   onAttach: function(worker) {
     work = worker;
