@@ -2,6 +2,7 @@
     var projection = "Plane",
         plugins = [],
         iconUrl = "unknown.png",
+        videojsUrl = "video-js/video.js",
         CHROME = !!global.chrome,//chrome global should exist if Chrome
         FIREFOX = !!self.port;//port global should exist if Chrome
 
@@ -19,6 +20,17 @@
         s.onload = function() {
             s.parentNode.removeChild(s);
         };
+    }
+
+    function injectCSS(url){
+        var fileref=document.createElement("link");
+        fileref.setAttribute("rel", "stylesheet");
+        fileref.setAttribute("type", "text/css");
+        fileref.setAttribute("href", url);
+        
+        if (fileref) {
+            document.getElementsByTagName("head")[0].appendChild(fileref)
+        }
     }
 
     // Listeners for events from poll.js (i.e. the background page)
@@ -59,6 +71,13 @@
                 icon.addEventListener('click', function (evt) {
                     this.style.display = "none";
                     video.setAttribute("crossorigin", "anonymous");
+                    video.className += "video-js vjs-default-skin";
+
+                    //if width, height not found, set to "auto"
+                    if (!video.getAttribute("width") && !video.getAttribute("height")) {
+                        video.setAttribute("width", "auto");
+                        video.setAttribute("height", "auto");
+                    }
 
                     if (FIREFOX) {
                         video.src = video.src;
@@ -70,12 +89,9 @@
                     var containerEl = video.parentNode;
                     var contentEl = containerEl.children[0];
 
-                    //aspect ratio stuff
-                    var aspect = (containerEl.offsetWidth && containerEl.offsetHeight) ? (containerEl.offsetWidth / containerEl.offsetHeight) : (4/3);
-
                     contentEl.style.pointerEvents = "none";
 
-                    plugin = global.MAKE3D.init(video, {container: containerEl, projection: projection, aspectRatio: aspect });
+                    plugin = global.MAKE3D.init(video, {projection: projection});
                     plugins.push(plugin);
                     evt.stopPropagation();
                 });
@@ -87,12 +103,10 @@
 
     //TODO: Place FIREFOX, CHROME code in separate scripts
     if (FIREFOX) {
-        self.port.on("pollUrl", function (url) {
-            inject(url)
-        });
-
-        self.port.on("sendIconUrl", function(url) {
-            iconUrl = url;
+        self.port.on("urls", function (obj) {
+            inject(obj.pollJsUrl);
+            iconUrl = obj.iconUrl;
+            injectCSS(obj.cssUrl);
             setInterval(checkVids, 3000);
         });
     }
@@ -100,6 +114,8 @@
     if (CHROME) {
         //inject
         inject(chrome.extension.getURL('poll.js'));
+        injectCSS(chrome.extension.getURL('video-js/video-js.css'));
+        videojsUrl = chrome.extension.getURL('video-js/video.js');
 
         iconUrl = chrome.extension.getURL("icon16.png");
 

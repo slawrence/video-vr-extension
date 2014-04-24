@@ -1,6 +1,8 @@
 #Location of your add-on sdk folder
 # See https://developer.mozilla.org/en-US/Add-ons/SDK/Tutorials/Installation
 SDKHOME=~/addon-sdk-1.16
+#switch between bundle.js & bundle.min.js for debug and minified versions
+BUNDLEFILE=bundle.min.js
 
 all: package
 
@@ -19,13 +21,14 @@ cpy-chrome: bundle
 	mkdir -p dist/chrome/video-js/
 	cp -r libs/video-js-4.4.3/ dist/chrome/video-js/
 	rsync -aP ./src/chrome/* ./dist/chrome/
-	cp dist/assets/bundle.min.js dist/chrome/bundle.js
+	cp dist/assets/$(BUNDLEFILE) dist/chrome/bundle.js
 	cp src/shared/js/poll.js dist/chrome
 
 cpy-firefox: bundle
-	mkdir -p dist/firefox
+	mkdir -p dist/firefox/data
+	cp -r libs/video-js-4.4.3/ dist/firefox/data/video-js/
 	rsync -aP ./src/firefox/* ./dist/firefox/
-	cp dist/assets/bundle.min.js dist/firefox/data/bundle.js
+	cp dist/assets/$(BUNDLEFILE) dist/firefox/data/bundle.js
 	cp src/shared/js/poll.js dist/firefox/data
 
 bundle:
