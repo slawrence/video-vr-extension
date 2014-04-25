@@ -91,7 +91,7 @@
 
                     contentEl.style.pointerEvents = "none";
 
-                    plugin = global.MAKE3D.init(video, {projection: projection});
+                    plugin = new global.VIDEO_VR.Scene(video, {projection: projection});
                     plugins.push(plugin);
                     evt.stopPropagation();
                 });

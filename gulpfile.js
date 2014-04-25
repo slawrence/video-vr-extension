@@ -9,7 +9,10 @@ var gulp = require('gulp'),
         'libs/vr/OculusRiftControls.js',
         'libs/vr/OculusRiftEffect.js',
         'libs/video-js-4.4.3/video.js',
-        'src/shared/js/make3d.js',
+        'src/shared/js/videovr.vr.js',
+        'src/shared/js/videovr.pointerLock.js',
+        'src/shared/js/videovr.menu.js',
+        'src/shared/js/videovr.js',
         'src/shared/js/content.js'
     ];
 
