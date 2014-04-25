@@ -26,9 +26,20 @@ This project contains source for both the Chrome and Firefox extensions. At some
 
 ### Dependencies ###
 
-The project requires [gulp.js](http://gulpjs.com) which is a node module, so you will need to install [Node](http://nodejs.org/). Install gulp.js by running `npm install -g gulp`
+The project requires [gulp.js](http://gulpjs.com) which is a node module, so you will need to install [Node.js](http://nodejs.org/).
 
-To package both Chrome and Firefox run `make`. Packaged products are located in `dist/packaged`
+Then run:
+
+        git clone https://github.com/slawrence/video-vr-extension
+        cd video-vr-extension
+        npm install -g gulp
+        npm install
+
+For Firefox, you must install the [Add-on SDK](https://developer.mozilla.org/en-US/Add-ons/SDK/Tutorials/Installation) into your home directory (i.e. `~/addon-sdk-1.16)
+
+Additionally, install the [autoinstaller](https://addons.mozilla.org/en-US/firefox/addon/autoinstaller/) Firefox extension for easier running and debugging.
+
+At this point you have everything needed to build and package the extensions. To package both Chrome and Firefox run `make`. Packaged products are located in `dist/packaged`
 
 ### Running Chrome ###
 
@@ -42,19 +53,13 @@ After making changes, run `make dev-chrome` then refresh the extension to see ch
 
 ### Running Firefox ###
 
-Firefox is a little more difficult because it requires the setup of the add-on SDK. To begin, install and activate the Add-on SDK: https://developer.mozilla.org/en-US/Add-ons/SDK/Tutorials/Installation and place it in your home folder, i.e. `~/addon-sdk-1.16`.
+Provided you have the Addon SDK and autoinstaller extension (see dependencies), run `make dev-firefox` to see changes.
 
-Additionally, install the [autoinstaller](https://addons.mozilla.org/en-US/firefox/addon/autoinstaller/) Firefox extension for easier running and debugging.
-
-After making changes, run `make dev-firefox` to see changes.
-
+`make run-firefox` can also be used to execute `cfx run`, but doesn't do a build/package.
 
 ### General ###
 
-Additionally gulp.js will be used for other common tasks, like testing.
-
-`gulp lint`
-`gulp test`
+Additionally gulp.js will be used for other common tasks, like linting and testing.
 
 TODO
 ---------------------------------
