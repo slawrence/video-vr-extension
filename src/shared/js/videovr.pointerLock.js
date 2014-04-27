@@ -1,7 +1,7 @@
 /**
  * Defines the pointer lock function.
  */
-;var VIDEO_VR = (function (my) {
+var VIDEO_VR = (function (my) {
     my.pointerLock = function (success, error, el) {
         var d = document,
             havePointerLock = 'pointerLockElement' in d || 'mozPointerLockElement' in d || 'webkitPointerLockElement' in d,
@@ -59,4 +59,4 @@
 
     return my;
 
-}(VIDEO_VR || {}))
+}(VIDEO_VR || {}));

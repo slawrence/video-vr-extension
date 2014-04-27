@@ -4,7 +4,7 @@
  * Will want to add support for other potential libs (oculus bridge, webrift)
  * here
  */
-;var VIDEO_VR = (function (my, vr) {
+var VIDEO_VR = (function (my, vr) {
 
     if (!vr) {
         console.error("Uh oh vr is not defined!");

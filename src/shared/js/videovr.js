@@ -22,7 +22,7 @@
  *
  *
  */
-;var VIDEO_VR = (function (my, vr, videojs, THREE) {
+var VIDEO_VR = (function (my, vr, videojs, THREE) {
 
     var defaultProjection = "Plane",
         projections = {
@@ -66,7 +66,7 @@
 
 
     if (!vr || !videojs) {
-        console.error("vr or videojs globals not found")
+        console.error("vr or videojs globals not found");
         return;
     }
 
@@ -107,7 +107,7 @@
      * Return element given either the element or a id string
      */
     function getElement(idOrEl) {
-        if (typeof idOrEl === "String") {
+        if (toString.call(idOrEl) == '[object String]') {
             return document.getElementById(idOrEl);
         }
         return idOrEl;
@@ -229,7 +229,7 @@
             }
 
             time = Date.now();
-        };
+        }
         animate.bind(this)();
     };
 

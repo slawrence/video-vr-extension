@@ -27,9 +27,9 @@
         fileref.setAttribute("rel", "stylesheet");
         fileref.setAttribute("type", "text/css");
         fileref.setAttribute("href", url);
-        
+
         if (fileref) {
-            document.getElementsByTagName("head")[0].appendChild(fileref)
+            document.getElementsByTagName("head")[0].appendChild(fileref);
         }
     }
 
@@ -42,15 +42,45 @@
         }
         window._vr_native_.poll = function () {
             return e.detail.poll;
-        }
+        };
         window._vr_native_.exec = function (id) {
             if (id == 1) {
                 return e.detail.command1;
             } else if (id == 2) {
                 document.dispatchEvent(new CustomEvent('resetHmd'));
             }
-        }
+        };
     });
+
+    function makeClickHandler(video) {
+        return function(evt) {
+            this.style.display = "none";
+            video.setAttribute("crossorigin", "anonymous");
+            video.className += "video-js vjs-default-skin";
+
+            //if width, height not found, set to "auto"
+            if (!video.getAttribute("width") && !video.getAttribute("height")) {
+                video.setAttribute("width", "auto");
+                video.setAttribute("height", "auto");
+            }
+
+            if (FIREFOX) {
+                video.src = video.src;
+                video.load();
+                video.play();
+            }
+
+            //will need to add logic to handle different sites here
+            var containerEl = video.parentNode;
+            var contentEl = containerEl.children[0];
+
+            contentEl.style.pointerEvents = "none";
+
+            plugin = new global.VIDEO_VR.Scene(video, {projection: projection});
+            plugins.push(plugin);
+            evt.stopPropagation();
+        };
+    }
 
     // This is where the magic happens
     // Find all video elements and add the little red icon. Add a click
@@ -62,43 +92,17 @@
             if (!video.hasAttribute("data-vr-plugin-found")) {
                 var icon = document.createElement("img"),
                     plugin;
-                icon.src = iconUrl
-                icon.style["position"] = "absolute";
+                icon.src = iconUrl;
+                icon.style.position = "absolute";
                 icon.style.top = "5px";
                 icon.style.right = "5px";
                 icon.style.cursor = "pointer";
                 icon.title = "Click to watch in 3D!";
-                icon.addEventListener('click', function (evt) {
-                    this.style.display = "none";
-                    video.setAttribute("crossorigin", "anonymous");
-                    video.className += "video-js vjs-default-skin";
-
-                    //if width, height not found, set to "auto"
-                    if (!video.getAttribute("width") && !video.getAttribute("height")) {
-                        video.setAttribute("width", "auto");
-                        video.setAttribute("height", "auto");
-                    }
-
-                    if (FIREFOX) {
-                        video.src = video.src;
-                        video.load();
-                        video.play();
-                    }
-
-                    //will need to add logic to handle different sites here
-                    var containerEl = video.parentNode;
-                    var contentEl = containerEl.children[0];
-
-                    contentEl.style.pointerEvents = "none";
-
-                    plugin = new global.VIDEO_VR.Scene(video, {projection: projection});
-                    plugins.push(plugin);
-                    evt.stopPropagation();
-                });
+                icon.addEventListener('click', makeClickHandler(video));
                 video.setAttribute("data-vr-plugin-found", "true");
                 (video.parentNode || document.body).appendChild(icon);
             }
-        };
+        }
     }
 
     //TODO: Place FIREFOX, CHROME code in separate scripts

@@ -1,7 +1,7 @@
 /**
  * Creates videojs projection menu for the control bar and adds it to the player
  */
-;var VIDEO_VR = (function (my, vjs) {
+var VIDEO_VR = (function (my, vjs) {
     if (!videojs) {
         console.error("Uh oh videojs is not defined!");
         return;

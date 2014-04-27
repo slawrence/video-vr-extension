@@ -2,6 +2,12 @@ var gulp = require('gulp'),
     uglify = require('gulp-uglify'),
     rename = require('gulp-rename'),
     concat = require('gulp-concat'),
+    jshint = require('gulp-jshint'),
+    srcFiles = [
+        'src/shared/js/**/*.js',
+        'src/chrome/*.js',
+        'src/firefox/lib/*.js'
+    ],
     scripts = [
         'libs/three.js',
         'libs/PointerLockControls.js',
@@ -27,4 +33,10 @@ function bundle(name, scripts) {
 
 gulp.task('bundle', function () {
     return bundle('bundle.js', scripts);
+});
+
+gulp.task('lint', function () {
+    return gulp.src(srcFiles)
+        .pipe(jshint())
+        .pipe(jshint.reporter('default'));
 });
