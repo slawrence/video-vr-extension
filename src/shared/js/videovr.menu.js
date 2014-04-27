@@ -1,12 +1,7 @@
 /**
- * Creates videojs menus
+ * Creates videojs projection menu for the control bar and adds it to the player
  */
 ;var VIDEO_VR = (function (my, vjs) {
-
-    var player,
-        container,
-        scene;
-
     if (!videojs) {
         console.error("Uh oh videojs is not defined!");
         return;
@@ -15,17 +10,17 @@
     /**
      * Add the menu options
      */
-    function initMenu() {
+    function initMenu(scene) {
         vjs.ProjectionSelector = vjs.MenuButton.extend({
-            init : function(player, options) {
-                player.availableProjections = options.availableProjections || [];
+            init: function(player, options) {
+                player.projections = options.projections || [];
                 vjs.MenuButton.call(this, player, options);
             }
         });
 
         //Top Item - not selectable
         vjs.ProjectionTitleMenuItem = vjs.MenuItem.extend({
-            init : function(player, options) {
+            init: function(player, options) {
                 vjs.MenuItem.call(this, player, options);
                 this.off('click'); //no click handler
             }
@@ -33,18 +28,14 @@
 
         //Menu Item
         vjs.ProjectionMenuItem = vjs.MenuItem.extend({
-            init : function(player, options){
-                options.label = options.res;
-                options.selected = (options.res.toString() === player.getCurrentRes().toString());
+            init: function(player, options){
+                options.label = options.projection;
+                options.selected = (options.projection === player.currentProjection);
                 vjs.MenuItem.call(this, player, options);
-                this.resolution = options.res;
+                this.projection = options.projection;
                 this.on('click', this.onClick);
                 player.on('changeProjection', vjs.bind(this, function() {
-                    if (this.resolution === player.getCurrentRes()) {
-                        this.selected(true);
-                    } else {
-                        this.selected(false);
-                    }
+                    this.selected(this.projection === player.currentProjection);
                 }));
             }
         });
@@ -55,14 +46,14 @@
             button_nodes = player.controlBar.projectionSelection.el().firstChild.children,
             button_node_count = button_nodes.length;
 
-            // Save the newly selected resolution in our player options property
-            scene.changeProjection(this.resolution);
+            // Save the newly selected projection in our player options property
+            scene.changeProjection(this.projection);
 
             // Update the button text
             while ( button_node_count > 0 ) {
                 button_node_count--;
-                if ( 'vjs-current-res' === button_nodes[button_node_count].className ) {
-                    button_nodes[button_node_count].innerHTML = this.resolution;
+                if ( 'vjs-current-projection' === button_nodes[button_node_count].className ) {
+                    button_nodes[button_node_count].innerHTML = this.projection;
                     break;
                 }
             }
@@ -74,17 +65,17 @@
             items = [];
 
             // Add the menu title item
-            items.push( new vjs.ProjectionTitleMenuItem( player, {
-                el : vjs.Component.prototype.createEl( 'li', {
-                    className : 'vjs-menu-title vjs-res-menu-title',
-                    innerHTML : 'Projections'
+            items.push(new vjs.ProjectionTitleMenuItem(player, {
+                el: vjs.Component.prototype.createEl('li', {
+                    className: 'vjs-menu-title vjs-projection-menu-title',
+                    innerHTML: 'Projections'
                 })
             }));
 
-            // Add an item for each available resolution
-            player.availableProjections.forEach(function (proj) {
-                items.push( new vjs.ProjectionMenuItem( player, {
-                    res : proj
+            // Add an item for each available projection
+            player.projections.forEach(function (projection) {
+                items.push(new vjs.ProjectionMenuItem(player, {
+                    projection: projection
                 }));
             });
 
@@ -92,38 +83,34 @@
         };
     }
 
-    function addMenu(cb) {
-        player.getCurrentRes = function() {
-            return player.currentProjection || '';
-        };
-
-        // Add the resolution selector button
-        var projectionSelection = new vjs.ProjectionSelector( player, {
-            el : vjs.Component.prototype.createEl( null, {
-                className : 'vjs-res-button vjs-menu-button vjs-control',
-                innerHTML : '<div class="vjs-control-content"><span class="vjs-current-res">' + ( player.currentProjection || 'Projections' ) + '</span></div>',
+    function addMenu(controlbar, projections, player) {
+        // Add the projection selector button
+        var projectionSelection = new vjs.ProjectionSelector(player, {
+            el: vjs.Component.prototype.createEl(null, {
+                className : 'vjs-projection-button vjs-menu-button vjs-control',
+                innerHTML : '<div class="vjs-control-content"><span class="vjs-current-projection">' + (player.currentProjection || 'Projections' ) + '</span></div>',
                 role    : 'button',
-                'aria-live' : 'polite', // let the screen reader user know that the text of the button may change
+                'aria-live' : 'polite',
                 tabIndex  : 0
             }),
-            availableProjections : scene.getAvailableProjections()
+            projections : projections
         });
 
         // Add the button to the control bar object and the DOM
-        cb.projectionSelection = cb.addChild( projectionSelection );
+        controlbar.projectionSelection = controlbar.addChild(projectionSelection);
     }
 
-    function initVRControls () {
+    function initVRControls (container, projections, player) {
         var controlEl = container.getElementsByClassName('vjs-control-bar')[0];
-        var left = vjs.Component.prototype.createEl( null, {
-            className : 'videojs-vr-controls',
-            innerHTML : '<div></div>',
-            tabIndex  : 0
+        var left = vjs.Component.prototype.createEl(null, {
+            className: 'videojs-vr-controls',
+            innerHTML: '<div></div>',
+            tabIndex: 0
         });
-        var right = vjs.Component.prototype.createEl( null, {
-            className : 'videojs-vr-controls',
-            innerHTML : '<div></div>',
-            tabIndex  : 0
+        var right = vjs.Component.prototype.createEl(null, {
+            className: 'videojs-vr-controls',
+            innerHTML: '<div></div>',
+            tabIndex: 0
         });
 
         function addStyle(theEl) {
@@ -141,7 +128,7 @@
 
         //copy controlEl
         var controlElRight = new vjs.ControlBar(player, {name: 'controlBar'});
-        addMenu(controlElRight);
+        addMenu(controlElRight, projections, player);
 
         //insert nodes into left and right
         left.insertBefore(controlEl, left.firstChild);
@@ -153,14 +140,14 @@
     }
 
     my.menu = {};
-    my.menu.init = function (sc) {
-        initMenu();
-        player = sc.player;
-        scene = sc;
-        container = sc.container;
-        addMenu(player.controlBar);
+    my.menu.init = function (scene) {
+        var player = scene.player,
+            projections = scene.getAvailableProjections();
+
+        initMenu(scene);
+        addMenu(player.controlBar, projections, player);
         if (my.vr.enabled) {
-            initVRControls();
+            initVRControls(scene.container, projections, player);
         }
     };
 
