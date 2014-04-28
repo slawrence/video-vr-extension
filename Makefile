@@ -1,8 +1,14 @@
 #Location of your add-on sdk folder
 # See https://developer.mozilla.org/en-US/Add-ons/SDK/Tutorials/Installation
 SDKHOME=~/addon-sdk-1.16
-#switch between bundle.js & bundle.min.js for debug and minified versions
+DEV=false
 BUNDLEFILE=bundle.min.js
+
+#If dev is true, use unminified bundle
+#run at CLI with args 'make DEV=true'
+ifeq ($(DEV),true)
+	BUNDLEFILE=bundle.js
+endif
 
 all: package
 
@@ -32,7 +38,7 @@ cpy-firefox: bundle
 	cp src/shared/js/poll.js dist/firefox/data
 
 bundle:
-	gulp bundle
+	gulp lint && gulp test && gulp bundle
 
 #The following targets are convenient for dev purposes
 #Requires autoinstall firefox extension
@@ -42,7 +48,6 @@ dev-firefox: pkg-firefox
 
 run-firefox:
 	cd $(SDKHOME); source bin/activate; cd -; cd dist/firefox; cfx run
-
 
 dev-chrome: pkg-chrome
 
