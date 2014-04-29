@@ -3,11 +3,14 @@
 SDKHOME=~/addon-sdk-1.16
 DEV=false
 BUNDLEFILE=bundle.min.js
+BUNDLECMD=gulp lint && gulp test && gulp bundle
 
 #If dev is true, use unminified bundle
+#and don't worry about lint/test for quicker dev cycle
 #run at CLI with args 'make DEV=true'
 ifeq ($(DEV),true)
 	BUNDLEFILE=bundle.js
+	BUNDLECMD=gulp bundle
 endif
 
 all: package
@@ -38,7 +41,7 @@ cpy-firefox: bundle
 	cp src/shared/js/poll.js dist/firefox/data
 
 bundle:
-	gulp lint && gulp test && gulp bundle
+	$(BUNDLECMD)
 
 #The following targets are convenient for dev purposes
 #Requires autoinstall firefox extension
