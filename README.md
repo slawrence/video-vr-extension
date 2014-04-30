@@ -1,10 +1,11 @@
-video-vr-extension
-============================
+# Video VR Extension
+
+[![Build Status](https://travis-ci.org/slawrence/video-vr-extension.svg?branch=master)](https://travis-ci.org/slawrence/video-vr-extension)
 
 Watch HTML5 videos on Youtube with the Oculus Rift (requires vr.js plugin for
 Rift support).
 
-See [Video](https://www.youtube.com/watch?v=hTtwGu25hE4&feature=youtu.be)
+See [Demo Video](https://www.youtube.com/watch?v=hTtwGu25hE4&feature=youtu.be)
 
 QuickStart
 ---------------------------
