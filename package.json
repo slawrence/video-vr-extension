@@ -2,9 +2,9 @@
   "name": "video-vr-extension",
   "license": "BSD-2-Clause",
   "author": "Sean Lawrence",
-  "version": "0.0.0",
+  "version": "0.0.7",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/.bin/gulp lint && ./node_modules/karma/bin/karma start --single-run --browsers PhantomJS"
   },
   "devDependencies": {
     "gulp": "~3.6.1",
@@ -17,7 +17,8 @@
     "karma-mocha": "~0.1.3",
     "karma-chrome-launcher": "~0.1.3",
     "should": "~3.3.1",
-    "jshint-stylish": "~0.1.5"
+    "jshint-stylish": "~0.1.5",
+    "karma-phantomjs-launcher": "~0.1.4"
   },
   "main": "index.js",
   "id": "jid1-14A3aSUI1sYSpg",
