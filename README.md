@@ -81,6 +81,15 @@ Packaging the app with `make` will lint, test, and package the Chrome and
 Firefox extensions. To package with unminified code (when debugging) pass in
 an extra argument: `make DEV=true`
 
+### Credits ###
+
+This project is a conglomeration of a few amazing open source libraries. Without
+these libraries this extension would not have been so easily assembled.
+
+* [VideoJS](http://www.videojs.com)
+* [VR.js](https://github.com/benvanik/vr.js)
+* [Three.js](http://threejs.org)
+
 TODO
 ---------------------------------
 
