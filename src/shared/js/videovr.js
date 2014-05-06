@@ -141,7 +141,7 @@ var VIDEO_VR = (function (my, vr, videojs, THREE) {
         });
     }
 
-    function initRenderedCanvas(element) {
+    function setStyle100(element) {
         element.style.width = "100%";
         element.style.height = "100%";
         return element;
@@ -200,9 +200,10 @@ var VIDEO_VR = (function (my, vr, videojs, THREE) {
             this.effect = new THREE.OculusRiftEffect(renderer);
         }
 
-        this.renderedCanvas = initRenderedCanvas(renderer.domElement);
+        this.renderedCanvas = setStyle100(renderer.domElement);
         this.container.insertBefore(this.renderedCanvas, this.container.firstChild);
 
+        this.container = setStyle100(this.container);
         this.vidEl.style.display = "none";
         this.vidEl.addEventListener("loadstart", function (evt) {
             //sometimes page doesn't reload, but video changes

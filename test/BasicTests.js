@@ -1,7 +1,7 @@
 describe('VIDEO_VR', function(){
-    describe('basic', function(){
+    describe('#Scene', function(){
         it('should exist', function(){
-            VIDEO_VR.should.be.ok;
+            VIDEO_VR.Scene.should.be.ok;
         });
     });
 });
